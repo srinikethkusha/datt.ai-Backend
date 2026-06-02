@@ -1,0 +1,111 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// User model
+model User {
+  id     String  @id @default(cuid())
+  name   String
+  email  String  @unique
+  age    Int
+  orders Order[]
+}
+
+model Product {
+  id                 String      @id @default(cuid())
+  productName        String
+  productPrice       Float
+  productDescription String
+  productType        ProductType
+  OrderItem          OrderItem[]
+}
+
+model Order {
+  id          String    @id @default(cuid())
+  userId      String
+  user        User      @relation(fields: [userId], references: [id])
+  totalPrice  Float
+  OrderItemId String
+  orderItem   OrderItem @relation(fields: [OrderItemId], references: [id])
+}
+
+model OrderItem {
+  id        String  @id @default(cuid())
+  quantity  Int
+  product   Product @relation(fields: [productId], references: [id])
+  productId String
+  Order     Order[]
+}
+
+enum ProductType {
+  FOOTWEAR
+  CLOTHES
+  MOBILES
+  WATCHES
+  ACCESSORIES
+  HOMENEEDS
+  DOMESTICNEEDS
+}
+
+enum EmploymentType {
+  FULL_TIME
+  PART_TIME
+  CONTRACT
+}
+
+enum JobStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum ApplicationStatus {
+  RECEIVED
+  HR_SCREENING
+  TECH_EVAL
+  INTERVIEW
+  FINAL_REVIEW
+  OFFER_SENT
+  REJECTED
+  CLOSED
+}
+
+model JobPosting {
+  id             String         @id @default(cuid())
+  title          String
+  department     String
+  location       String
+  employmentType EmploymentType
+  experience     String
+  skills         String
+  description    String
+  salary         String?
+  status         JobStatus      @default(ACTIVE)
+  deadline       DateTime
+  postedAt       DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  applications   Application[]
+}
+
+model Application {
+  id                String            @id @default(cuid())
+  jobId             String
+  job               JobPosting        @relation(fields: [jobId], references: [id])
+  fullName          String
+  email             String
+  phone             String
+  location          String
+  yearsOfExperience Int
+  skills            String
+  linkedIn          String?
+  portfolio         String?
+  coverLetter       String?
+  resumePath        String
+  status            ApplicationStatus @default(RECEIVED)
+  appliedAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+}
