@@ -65,4 +65,8 @@ export class JobRepository {
   ): Promise<JobPosting> {
     return this.prisma.jobPosting.update({ where: { id }, data });
   }
+
+  async delete(id: string): Promise<JobPosting> {
+    return this.prisma.jobPosting.delete({ where: { id } });
+  }
 }

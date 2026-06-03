@@ -63,4 +63,9 @@ export class JobService {
     await this.getAdminJob(id);
     return this.jobRepository.update(id, { status: dto.status });
   }
+
+  async deleteJob(id: string): Promise<JobPosting> {
+    await this.getAdminJob(id);
+    return this.jobRepository.delete(id);
+  }
 }

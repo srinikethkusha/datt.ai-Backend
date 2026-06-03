@@ -21,7 +21,7 @@ export function warnIfSupabaseMisconfigured(): void {
 
   if (misconfigured) {
     logger.error(
-      'Supabase is not configured. Set SUPABASE_URL, SUPABASE_JWT_SECRET, and SUPABASE_SERVICE_ROLE_KEY in database-cons/.env (Dashboard → Settings → API). Admin API routes will return 401.',
+      'Supabase is not configured. Set SUPABASE_URL, SUPABASE_JWT_SECRET, and SUPABASE_SERVICE_ROLE_KEY in datt.ai-BE/.env (Dashboard → Settings → API). Admin API routes will return 401.',
     );
   }
 }
